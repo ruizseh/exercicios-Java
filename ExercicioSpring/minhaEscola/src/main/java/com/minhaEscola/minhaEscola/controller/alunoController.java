@@ -15,58 +15,56 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import com.minhaEscola.minhaEscola.model.turma;
-import com.minhaEscola.minhaEscola.repository.turmaRepository;
+import com.minhaEscola.minhaEscola.model.aluno;
+import com.minhaEscola.minhaEscola.repository.alunoRepository;
 
 @RestController
-@RequestMapping("/turmas")
+@RequestMapping("/aluno")
 @CrossOrigin("*")
-
-public class turmaController {
+public class alunoController {
 	
 	@Autowired
-	private turmaRepository repository;
+	private alunoRepository repository;
 	
 	
 	@GetMapping
-	public ResponseEntity<List<turma>> GetAll(){
+	public ResponseEntity<List<aluno>> GetAll(){
+		
 		return ResponseEntity.ok(repository.findAll());
+		
 	}
 	
 	
-	
-	@GetMapping("/{id}")
-	
-	public ResponseEntity<turma> GetById(@PathVariable long id){
-	
+	@GetMapping("/{id]")
+	public ResponseEntity<aluno> getById(@PathVariable long id){
+		
 		return repository.findById(id).map(resp -> ResponseEntity.ok(resp)).orElse(ResponseEntity.notFound().build());
-	
-	
-	}
-	
-	@GetMapping("/turma/{turma}")
-	
-	public ResponseEntity<List<turma>> GetByTurma(@PathVariable String turma){
-		
-		return ResponseEntity.ok(repository.findAllByTurmaContainingIgnoreCase(turma));
-		
+				
 		
 	}
+	
+	
+	@GetMapping("/nome/{nome}")
+	public ResponseEntity<List<aluno>> GetByAluno(@PathVariable String nome){
+		
+		return ResponseEntity.ok(repository.findAllByNomeContainingIgnoreCase(nome));
+	}
+	
+	
 	
 	@PostMapping
-	public ResponseEntity<turma> post (@RequestBody turma turma){
+	public ResponseEntity<aluno> post (@RequestBody aluno nome){
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(turma));
-		
+		return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(nome));
 	}
 	
+	
 	@PutMapping
-	public ResponseEntity<turma> put (@RequestBody turma turma){
+	public ResponseEntity<aluno> put (@RequestBody aluno nome){
 		
-		return ResponseEntity.status(HttpStatus.OK).body(repository.save(turma));
-		
+		return ResponseEntity.status(HttpStatus.OK).body(repository.save(nome));
 	}
+	
 	
 	
 	@DeleteMapping("/{id}")
@@ -75,7 +73,6 @@ public class turmaController {
 		repository.deleteById(id);
 		
 	}
-	
 	
 	
 
